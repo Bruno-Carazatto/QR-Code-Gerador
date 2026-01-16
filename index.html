@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="pt-br" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>QR Code Studio</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="img/icon.png" type="image/png" />
+
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- Topbar -->
+  <header class="app-topbar">
+    <div class="container-fluid app-wrap">
+      <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+        <div class="d-flex align-items-center gap-2">
+          <img src="img/icon.png" class="app-logo" alt="QR Code Studio" />
+          <div>
+            <h1 class="app-title mb-0">QR Code Studio</h1>
+            <p class="app-subtitle mb-0">Gere, copie, baixe, PIX e scanner ✅</p>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <button id="btnOpenScanner" class="btn btn-outline-light btn-sm app-btn-soft">
+            📷 Scanner
+          </button>
+
+          <button id="btnClearAll" class="btn btn-outline-light btn-sm app-btn-soft">
+            Limpar Histórico
+          </button>
+
+          <button id="btnToggleTheme" class="btn btn-light btn-sm app-btn-theme" type="button">
+            <span id="themeIcon" aria-hidden="true">🌙</span>
+            <span class="ms-1" id="themeText">Escuro</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container-fluid app-wrap pb-4">
+    <div class="row g-3">
+      <!-- Left: Form -->
+      <div class="col-12 col-lg-7">
+        <section class="card app-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+              <h2 class="h5 mb-0 app-heading">Gerar QR Code</h2>
+              <div class="small app-muted">
+                Atualiza automaticamente conforme você digita ✨
+              </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-pills app-pills mb-3" id="qrTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tab-texto" data-bs-toggle="pill" data-bs-target="#pane-texto" type="button" role="tab">
+                  Texto/URL
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-wifi" data-bs-toggle="pill" data-bs-target="#pane-wifi" type="button" role="tab">
+                  Wi-Fi
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-whatsapp" data-bs-toggle="pill" data-bs-target="#pane-whatsapp" type="button" role="tab">
+                  WhatsApp
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-email" data-bs-toggle="pill" data-bs-target="#pane-email" type="button" role="tab">
+                  E-mail
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="tab-pix" data-bs-toggle="pill" data-bs-target="#pane-pix" type="button" role="tab">
+                  PIX 💸
+                </button>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <!-- Texto/URL -->
+              <div class="tab-pane fade show active" id="pane-texto" role="tabpanel" aria-labelledby="tab-texto">
+                <div class="mb-3">
+                  <label class="form-label app-label">Conteúdo</label>
+                  <textarea id="inputText" class="form-control app-input" rows="4" placeholder="Digite um texto ou cole um link (https://...)"></textarea>
+                  <div class="form-text app-muted">
+                    Dica: links com https:// funcionam melhor em leitores de QR.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Wi-Fi -->
+              <div class="tab-pane fade" id="pane-wifi" role="tabpanel" aria-labelledby="tab-wifi">
+                <div class="row g-2">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label app-label">Nome da rede (SSID)</label>
+                    <input id="wifiSsid" class="form-control app-input" type="text" placeholder="Ex: MinhaRede" />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label app-label">Tipo de segurança</label>
+                    <select id="wifiType" class="form-select app-input">
+                      <option value="WPA" selected>WPA/WPA2</option>
+                      <option value="WEP">WEP</option>
+                      <option value="nopass">Sem senha</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label app-label">Senha</label>
+                    <input id="wifiPass" class="form-control app-input" type="text" placeholder="Ex: senha123" />
+                    <div class="form-text app-muted">Se escolher “Sem senha”, a senha é ignorada.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- WhatsApp -->
+              <div class="tab-pane fade" id="pane-whatsapp" role="tabpanel" aria-labelledby="tab-whatsapp">
+                <div class="row g-2">
+                  <div class="col-12 col-md-5">
+                    <label class="form-label app-label">Número (com DDD)</label>
+                    <input id="waNumber" class="form-control app-input" type="text" placeholder="Ex: 11999999999" />
+                    <div class="form-text app-muted">Somente números (sem +55).</div>
+                  </div>
+                  <div class="col-12 col-md-7">
+                    <label class="form-label app-label">Mensagem</label>
+                    <input id="waMessage" class="form-control app-input" type="text" placeholder="Ex: Olá! Quero mais informações." />
+                  </div>
+                </div>
+              </div>
+
+              <!-- E-mail -->
+              <div class="tab-pane fade" id="pane-email" role="tabpanel" aria-labelledby="tab-email">
+                <div class="row g-2">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label app-label">Para</label>
+                    <input id="emailTo" class="form-control app-input" type="email" placeholder="Ex: contato@empresa.com" />
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label app-label">Assunto</label>
+                    <input id="emailSubject" class="form-control app-input" type="text" placeholder="Ex: Orçamento" />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label app-label">Mensagem</label>
+                    <textarea id="emailBody" class="form-control app-input" rows="3" placeholder="Digite sua mensagem..."></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PIX -->
+              <div class="tab-pane fade" id="pane-pix" role="tabpanel" aria-labelledby="tab-pix">
+                <div class="row g-2">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label app-label">Chave PIX</label>
+                    <input id="pixKey" class="form-control app-input" type="text" placeholder="Ex: f64d5330-b53c-4b6f-b228-75dcc1c6b025" />
+                    <div class="form-text app-muted">Pode ser CPF/CNPJ, e-mail, celular ou aleatória.</div>
+                  </div>
+
+                  <div class="col-12 col-md-3">
+                    <label class="form-label app-label">Valor (opcional)</label>
+                    <input id="pixAmount" class="form-control app-input" type="text" placeholder="Ex: 10.00" />
+                    <div class="form-text app-muted">Use ponto: 10.00</div>
+                  </div>
+
+                  <div class="col-12 col-md-3">
+                    <label class="form-label app-label">TXID (opcional)</label>
+                    <input id="pixTxid" class="form-control app-input" type="text" placeholder="Ex: DOACAO10" maxlength="25" />
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label app-label">Nome do recebedor</label>
+                    <input id="pixName" class="form-control app-input" type="text" placeholder="Ex: BRUNO CARAZATTO" maxlength="25" />
+                    <div class="form-text app-muted">Até 25 caracteres (padrão EMV).</div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label app-label">Cidade</label>
+                    <input id="pixCity" class="form-control app-input" type="text" placeholder="Ex: SAO PAULO" maxlength="15" />
+                    <div class="form-text app-muted">Até 15 caracteres.</div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label app-label">Descrição (opcional)</label>
+                    <input id="pixDesc" class="form-control app-input" type="text" placeholder="Ex: Apoio ao projeto (R$10)" maxlength="40" />
+                  </div>
+                </div>
+
+                <div class="mt-3 d-flex flex-wrap gap-2">
+                  <button id="btnCopyPix" class="btn btn-outline-light app-btn-soft">
+                    Copiar PIX (Copia e Cola)
+                  </button>
+                </div>
+
+                <div class="small app-muted mt-2">
+                  O QR de PIX é gerado no padrão “copia e cola” (payload EMV) ✅
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <button id="btnGenerate" class="btn btn-primary app-btn-primary">
+                Gerar QR
+              </button>
+
+              <button id="btnCopy" class="btn btn-outline-light app-btn-soft">
+                Copiar Conteúdo
+              </button>
+
+              <button id="btnDownload" class="btn btn-success app-btn-success">
+                Baixar PNG
+              </button>
+
+              <button id="btnSaveHistory" class="btn btn-warning app-btn-warning">
+                Salvar no Histórico
+              </button>
+            </div>
+
+            <!-- Alerts -->
+            <div id="alertBox" class="app-alert mt-3" role="status" aria-live="polite"></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right: QR Preview + History -->
+      <div class="col-12 col-lg-5">
+        <section class="card app-card mb-3">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+              <h2 class="h5 mb-0 app-heading">Preview</h2>
+              <span class="badge app-badge" id="qrTypeBadge">Texto/URL</span>
+            </div>
+
+            <!-- QR Controls -->
+            <div class="app-qr-controls">
+              <div class="app-qr-control">
+                <label class="app-label-sm">Cor do QR</label>
+                <input id="qrColor" type="color" value="#111111" />
+              </div>
+              <div class="app-qr-control">
+                <label class="app-label-sm">Auto-contraste</label>
+                <div class="app-pill">
+                  <span id="contrastStatus">Ligado ✅</span>
+                </div>
+              </div>
+              <div class="app-qr-control">
+                <label class="app-label-sm">Fundo</label>
+                <div class="app-pill">
+                  <span id="qrBgStatus">Automático</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-qr-wrap">
+              <div id="qrCode" class="app-qr"></div>
+            </div>
+
+            <div class="mt-3 small app-muted">
+              Conteúdo atual:
+              <div class="app-content-preview mt-1" id="contentPreview">—</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card app-card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <h2 class="h5 mb-0 app-heading">Histórico</h2>
+              <span class="small app-muted" id="historyCount">0 item(s)</span>
+            </div>
+
+            <div id="historyList" class="app-history"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- QRCode.js -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <!-- Scanner (Webcam) -->
+  <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+  <!-- Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JS -->
+  <script src="js/script.js"></script>
+
+  <!-- Modal Scanner -->
+  <div class="modal fade" id="scannerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content app-modal">
+        <div class="modal-header border-0">
+          <h5 class="modal-title app-heading">📷 Scanner de QR Code</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="app-scanner-wrap">
+            <div id="qr-reader" class="app-scanner"></div>
+          </div>
+
+          <div class="mt-3 small app-muted">
+            Resultado:
+            <div class="app-content-preview mt-1" id="scanResult">—</div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0">
+          <button id="btnStopScanner" class="btn btn-outline-light app-btn-soft">Parar</button>
+          <button id="btnUseScanned" class="btn btn-primary app-btn-primary">Usar no Gerador</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
