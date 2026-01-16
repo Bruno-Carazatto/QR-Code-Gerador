@@ -333,3 +333,217 @@ html[data-theme="light"] .app-scanner-wrap{ background: rgba(0,0,0,.02); }
   .app-qr{ width: 200px; height: 200px; }
   .app-qr-wrap{ min-height: 240px; }
 }
+
+/* =========================
+   FIX: Tema Claro (contraste + hover)
+   Cole no FINAL do style.css
+   ========================= */
+html[data-theme="light"] .app-subtitle,
+html[data-theme="light"] .app-muted,
+html[data-theme="light"] .form-text{
+  color: rgba(11, 18, 32, .78) !important; /* mais escuro */
+}
+
+html[data-theme="light"] .app-heading,
+html[data-theme="light"] .app-label{
+  color: #0b1220 !important;
+}
+
+/* Placeholder mais legível no claro */
+html[data-theme="light"] .app-input::placeholder{
+  color: rgba(11, 18, 32, .55) !important;
+}
+
+/* Botões "soft" (topo: Scanner/Limpar Histórico) estavam apagados */
+html[data-theme="light"] .app-btn-soft{
+  color: #0b1220 !important;
+  border-color: rgba(11, 18, 32, .18) !important;
+  background: rgba(255,255,255,.55) !important;
+}
+
+html[data-theme="light"] .app-btn-soft:hover{
+  background: rgba(255,255,255,.78) !important;
+  border-color: rgba(11, 18, 32, .28) !important;
+  transform: translateY(-1px);
+}
+
+/* Botão do tema (Claro/Escuro) com hover melhor */
+html[data-theme="light"] .app-btn-theme:hover{
+  background: rgba(255,255,255,.85) !important;
+  border-color: rgba(11, 18, 32, .22) !important;
+}
+
+/* Pills/Tabs: texto e hover mais fortes */
+html[data-theme="light"] .app-pills .nav-link{
+  color: rgba(11, 18, 32, .78) !important;
+  border-color: rgba(11, 18, 32, .10) !important;
+}
+
+html[data-theme="light"] .app-pills .nav-link:hover{
+  color: #0b1220 !important;
+  background: rgba(255,255,255,.70) !important;
+  border-color: rgba(11, 18, 32, .18) !important;
+}
+
+html[data-theme="light"] .app-pills .nav-link.active{
+  color: #0b1220 !important;
+  background: rgba(255,255,255,.88) !important;
+  border-color: rgba(11, 18, 32, .22) !important;
+}
+
+/* Badge do tipo (Texto/URL) no preview */
+html[data-theme="light"] .app-badge{
+  color: #0b1220 !important;
+  border-color: rgba(11, 18, 32, .14) !important;
+}
+
+/* Alertas no claro: texto mais nítido */
+html[data-theme="light"] .app-alert{
+  color: #0b1220 !important;
+  border-color: rgba(11, 18, 32, .14) !important;
+  background: rgba(255,255,255,.78) !important;
+}
+
+/* =========================
+   FIX FINAL: QR Code responsivo (mobile)
+   ========================= */
+
+/* Wrapper sempre centralizado */
+.app-qr-wrap{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* QR padrão (desktop) */
+.app-qr{
+  width: 220px;
+  height: 220px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Tablets */
+@media (max-width: 992px){
+  .app-qr{
+    width: 200px;
+    height: 200px;
+  }
+}
+
+/* Celulares grandes */
+@media (max-width: 768px){
+  .app-qr{
+    width: 180px;
+    height: 180px;
+  }
+}
+
+/* Celulares pequenos */
+@media (max-width: 480px){
+  .app-qr{
+    width: 150px;
+    height: 150px;
+  }
+
+  .app-qr-wrap{
+    min-height: 200px; /* evita parecer “jogado pra cima” */
+  }
+}
+
+/* QR interno (canvas/img) acompanha o container */
+.app-qr canvas,
+.app-qr img{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+/* =========================
+   FIX: Hover do botão "Copiar Conteúdo" no modo escuro
+   (btn-outline-light + app-btn-soft estava ficando branco)
+   ========================= */
+
+html[data-theme="dark"] .app-btn-soft{
+  color: var(--text) !important;
+  border-color: rgba(255,255,255,.20) !important;
+  background: rgba(255,255,255,.06) !important;
+}
+
+html[data-theme="dark"] .app-btn-soft:hover,
+html[data-theme="dark"] .app-btn-soft:focus{
+  background: rgba(255,255,255,.14) !important;   /* vidro, sem estourar */
+  border-color: rgba(255,255,255,.32) !important;
+  color: var(--text) !important;
+  box-shadow: 0 12px 26px rgba(0,0,0,.25);
+  transform: translateY(-1px);
+}
+
+/* Evita que o Bootstrap deixe o "outline-light" branco no hover */
+html[data-theme="dark"] .btn-outline-light:hover,
+html[data-theme="dark"] .btn-outline-light:focus{
+  background-color: rgba(255,255,255,.14) !important;
+  border-color: rgba(255,255,255,.32) !important;
+  color: var(--text) !important;
+}
+
+/* Opcional: melhora o clique (active) */
+html[data-theme="dark"] .app-btn-soft:active{
+  transform: translateY(0px);
+  background: rgba(255,255,255,.18) !important;
+}
+
+/* =========================
+   FIX: Espaçamento entre botões (Tabs QR)
+   ========================= */
+
+/* Container das tabs */
+.app-pills{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;                 /* espaçamento uniforme entre os botões */
+}
+
+/* Botões individuais */
+.app-pills .nav-link{
+  margin: 0 !important;     /* remove espaçamentos herdados */
+  padding: 8px 14px;        /* padding consistente */
+  font-size: .9rem;
+  line-height: 1;
+  white-space: nowrap;      /* evita quebrar texto */
+}
+
+/* Ajuste fino em telas menores */
+@media (max-width: 576px){
+  .app-pills{
+    gap: 6px;
+  }
+
+  .app-pills .nav-link{
+    padding: 7px 12px;
+    font-size: .85rem;
+  }
+}
+
+/* =========================
+   FIX: Espaço entre Topbar e Conteúdo
+   ========================= */
+
+/* Espaço padrão entre menu e conteúdo */
+main.app-wrap{
+  margin-top: 20px;
+}
+
+/* Ajuste fino para telas maiores (desktop) */
+@media (min-width: 992px){
+  main.app-wrap{
+    margin-top: 32px;
+  }
+}
+
+/* Mobile: um pouco menos para não “empurrar demais” */
+@media (max-width: 576px){
+  main.app-wrap{
+    margin-top: 20px;
+  }
+}
